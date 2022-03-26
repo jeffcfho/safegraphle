@@ -4,8 +4,6 @@ import random
 import snowflake.connector
 import plotly.express as px
 
-QUERY_CACHE_TTL =  1800 #0.5 hours
-
 st.markdown(
     """ 
     # SAFEGRAPHLE 
@@ -71,7 +69,7 @@ if "answer_idx" not in st.session_state:
         st.session_state["answer_idx"] = 18
 answer = answers.loc[[st.session_state["answer_idx"]]]
 
-# Query for brand locations for answer. No cache since should refresh on new answer
+# Query for brand locations for answer.
 @st.cache(hash_funcs={"_thread.lock": lambda _: None})
 def get_safegraphle_pois(answer_brand_id):
     poi_query = f'''
@@ -188,8 +186,3 @@ st.markdown(
     - NUM_POIS: 🟩 = Correct; ⬇️ = Too high; ⬆️ = Too low
     """
     )
-
-# to-do
-# share on social
-# tell people the answer upon failure
-# order guesses
