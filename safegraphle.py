@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from datetime import datetime
 import random
 import snowflake.connector
 import plotly.express as px
@@ -14,11 +15,11 @@ st.markdown(
     * POIs in between 3 and 25 states, and 
     * `naics_code` starts with `7225` (Restaurants and Other Eating Places) or `4451` (Grocery Stores).
 
-    **Here is a map of all SafeGraph POIs for the specified SAFEGRAPHLE:**
+    **Here is a map of all SafeGraph POIs for the specified SAFEGRAPHLE (Updates every weekday):**
     """
     )
 
-new_game_button = st.button("TRY A DIFFERENT SAFEGRAPHLE")
+new_game_button = st.button("OR TRY A RANDOM SAFEGRAPHLE")
 randomize_answer = False
 if new_game_button:
     st.session_state.pop("guesses",None)
@@ -60,13 +61,41 @@ def get_safegraph_brands():
     '''
     return pd.read_sql(safegraphle_query, conn)
 
-# Get specific answer
+# Get answer list
 answers = get_safegraph_brands()
+
+# Order answers by index of query
+
+# Initial code to get order:
+# first_answers = [18, 42, 0, 51, 6]
+# remaining_answers = [idx for idx in list(answers.index) if idx not in first_answers]
+# random.shuffle(remaining_answers)
+# answer_order = [first_answers + remaining_answers]
+
+# Manually entered order adusting for weekends
+answer_order = \
+    [18, 42, 0, 51, 6, 6, 6,
+    58, 64, 43, 25, 12, 12, 12, 
+    11, 41, 29, 5, 23, 23, 23, 
+    8, 2, 19, 38, 48, 48, 48,
+    10, 60, 54, 47, 3, 3, 3, 
+    39, 9, 45, 31, 40, 40, 40, 
+    36, 30, 63, 57, 37, 37, 37, 
+    1, 21, 28, 35, 16, 16, 16, 
+    32, 34, 15, 26, 52, 52, 52, 
+    27, 14, 33, 24, 13, 13, 13,
+    7, 46, 4, 53, 55, 55, 55, 
+    49, 61, 50, 56, 22, 22, 22, 
+    62, 17, 20, 59, 44, 44, 44]
+
+# Get specific answer for the day
+days_since_mar28 = (datetime.now() - datetime(2022,3,28)).days
+
 if "answer_idx" not in st.session_state:
     if randomize_answer:
         st.session_state["answer_idx"] = round(random.uniform(0,1)*len(answers))        
     else:
-        st.session_state["answer_idx"] = 18
+        st.session_state["answer_idx"] = answer_order[days_since_mar28]
 answer = answers.loc[[st.session_state["answer_idx"]]]
 
 # Query for brand locations for answer.
