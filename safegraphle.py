@@ -114,7 +114,7 @@ answer_pois = (
 )
 
 # Show map
-st.text(f"SAFEGRAPHLE {st.session_state['answer_idx']}")
+st.text(f"SAFEGRAPHLE #{st.session_state['answer_idx']}")
 st.map(answer_pois,zoom=3)
 # st.write(answer)
 
@@ -125,7 +125,7 @@ if "guesses" not in st.session_state:
     st.session_state["guess_states"] = []
     st.session_state["guess_num_pois"] = []
     st.session_state["num_guesses"] = 0
-    st.session_state["summary"] = f"SAFEGRAPHLE {st.session_state['answer_idx']}\n"
+    st.session_state["summary"] = f"SAFEGRAPHLE #{st.session_state['answer_idx']}\n"
 
 class Brand:
     def __init__(self, df_row):
