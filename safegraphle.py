@@ -15,7 +15,7 @@ st.markdown(
     * POIs in between 3 and 25 states, and 
     * `naics_code` starts with `7225` (Restaurants and Other Eating Places) or `4451` (Grocery Stores).
 
-    **Here is a map of all SafeGraph POIs for the specified SAFEGRAPHLE (Updates every weekday):**
+    **Here is a map of all US locations for the specified SAFEGRAPHLE (Updates every weekday):**
     """
     )
 
