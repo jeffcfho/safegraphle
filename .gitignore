@@ -130,3 +130,5 @@ dmypy.json
 .streamlit/secrets.toml
 
 .DS_Store
+.envrc
+.python_version

@@ -5,6 +5,8 @@ import random
 import snowflake.connector
 import plotly.express as px
 
+QUERY_CACHE_TTL =  1800 #0.5 hours
+
 st.markdown(
     """ 
     # SAFEGRAPHLE 
@@ -30,14 +32,14 @@ if new_game_button:
 # Functions for pulling data from Snowflake
 # Initialize connection.
 # Uses st.cache to only run once.
-@st.cache(allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None,"builtins.weakref": lambda _: None,})
+@st.cache(ttl = QUERY_CACHE_TTL, allow_output_mutation=True, hash_funcs={"_thread.RLock": lambda _: None,"builtins.weakref": lambda _: None,})
 def init_connection():
     return snowflake.connector.connect(**st.secrets["snowflake"])
 
 conn = init_connection()
 
 # Populate answer list
-@st.cache(hash_funcs={"_thread.lock": lambda _: None})
+@st.cache(ttl = QUERY_CACHE_TTL, hash_funcs={"_thread.lock": lambda _: None})
 def get_safegraph_brands():
     safegraphle_query = f'''
     WITH brand_summary AS (
@@ -99,7 +101,7 @@ if "answer_idx" not in st.session_state:
 answer = answers.loc[[st.session_state["answer_idx"]]]
 
 # Query for brand locations for answer.
-@st.cache(hash_funcs={"_thread.lock": lambda _: None})
+@st.cache(ttl = QUERY_CACHE_TTL, hash_funcs={"_thread.lock": lambda _: None})
 def get_safegraphle_pois(answer_brand_id):
     poi_query = f'''
     SELECT *
