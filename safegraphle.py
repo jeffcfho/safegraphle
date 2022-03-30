@@ -200,7 +200,7 @@ if click_button:
 # Display guesses
 guesses_dict = {"NAICS_CODE": st.session_state["guess_naics_codes"],
                 "STATES":     st.session_state["guess_states"],
-                "NUM_POIS":   st.session_state["guess_num_pois"]}
+                "NUM_US_POIS":   st.session_state["guess_num_pois"]}
 st.markdown(
     """
     ---
@@ -214,6 +214,6 @@ st.markdown(
     """
     - NAICS_CODE: 🟩 = Correct; 🟨 = Correct first 4 digits; ⬜ = Way off
     - STATES: 🟩 = Captures 100% of correct states; 🟨 = Captures >50% correct states; ⬜ = Way off
-    - NUM_POIS: 🟩 = Correct; ⬇️ = Too high; ⬆️ = Too low
+    - NUM_US_POIS: 🟩 = Correct; ⬇️ = Too high; ⬆️ = Too low
     """
     )
